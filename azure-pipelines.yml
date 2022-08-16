@@ -10,8 +10,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  inviscan-api-project: 'Inviscan.API/Inviscan.API.csproj'
-  inviscan-api-tests-project: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -19,16 +17,16 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: build
-    arguments: '$(inviscan-api-project)'
+    arguments: 'Inviscan.API/Inviscan.API.csproj'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: test
-    arguments: '$(inviscan-api-tests-project)'
+    arguments: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(inviscan-api-project)\bin\Release'
+    rootFolderOrFile: 'Inviscan.API\bin\Release'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
