@@ -11,7 +11,7 @@ pool:
 
 variables:
   inviscan-api-project: 'Inviscan.API/Inviscan.API.csproj'
-  inviscan-api-project-tests: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj'
+  inviscan-api-tests-project: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
