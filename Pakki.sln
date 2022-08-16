@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GS", "GS\GS.csproj", "{DE0E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API", "Inviscan.API\Inviscan.API.csproj", "{751ACE6D-1F03-48FC-A356-D2C4F9125B43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API.Tests", "Inviscan.API.Tests\Inviscan.API.Tests.csproj", "{916C1F63-276D-4010-9286-DB250027AAE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inviscan", "Inviscan", "{8CC0FE21-21D5-4612-8080-16D4FA131644}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{916C1F63-276D-4010-9286-DB250027AAE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{916C1F63-276D-4010-9286-DB250027AAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{916C1F63-276D-4010-9286-DB250027AAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{916C1F63-276D-4010-9286-DB250027AAE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{751ACE6D-1F03-48FC-A356-D2C4F9125B43} = {8CC0FE21-21D5-4612-8080-16D4FA131644}
+		{916C1F63-276D-4010-9286-DB250027AAE3} = {8CC0FE21-21D5-4612-8080-16D4FA131644}
 	EndGlobalSection
 EndGlobal
