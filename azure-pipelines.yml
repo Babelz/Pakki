@@ -9,20 +9,18 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
 steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: build
     arguments: 'Inviscan.API/Inviscan.API.csproj'
+    configuration: 'Release'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: test
     arguments: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj'
+    configuration: 'Release'
 
 - task: ArchiveFiles@2
   inputs:
