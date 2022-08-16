@@ -22,7 +22,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'Inviscan.API/bin/Release/*/'
+    rootFolderOrFile: 'Inviscan.API/bin/Release/netcoreapp3.1/'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
