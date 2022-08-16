@@ -1,0 +1,27 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  inviscan-api-project: 'Inviscan.API/Inviscan.API.csproj'
+  inviscan-api-project-tests: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build
+    arguments: '$(inviscan-api-project)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    arguments: '$(inviscan-api-tests-project)'
