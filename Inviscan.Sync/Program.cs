@@ -32,8 +32,9 @@ namespace Inviscan.Sync
                                 services.AddSingleton<IPriceDataService, PriceDataService>();
                                 services.AddSingleton<ICollectionLogService, CollectionLogService>();
                                 services.AddSingleton<ICommand, SyncCollection>();
-                            }).Build();
-            
+                            })
+                           .Build();
+
             // Run the sync command.
             host.Services.GetService<SyncCollection>()!.Execute();
         }

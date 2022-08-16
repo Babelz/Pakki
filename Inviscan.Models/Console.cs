@@ -10,7 +10,7 @@ namespace Inviscan.Models
         NES = 0,
         SNES,
         N64,
-        
+
         /// <summary>
         /// GameCube.
         /// </summary>
@@ -26,12 +26,12 @@ namespace Inviscan.Models
         /// Original GameBoy.
         /// </summary>
         GB,
-        
+
         /// <summary>
         /// GameBoy Color.
         /// </summary>
         GBC,
-        
+
         /// <summary>
         /// GameBoy Advance.
         /// </summary>
@@ -40,7 +40,7 @@ namespace Inviscan.Models
         DS,
         DSLite,
         DSI,
-        
+
         /// <summary>
         /// Nintendo 3DS.
         /// </summary>
@@ -60,23 +60,23 @@ namespace Inviscan.Models
         Vita,
         PSP,
         #endregion
-        
+
         #region Microsoft home consoles
         XB,
         XB360,
-        
+
         /// <summary>
         /// Xbox one.
         /// </summary>
         XBO,
-        
+
         /// <summary>
         /// Xbox series X.
         /// </summary>
         XBSX
         #endregion
     }
-    
+
     [Flags]
     public enum ConsoleKind : byte
     {
@@ -84,7 +84,7 @@ namespace Inviscan.Models
         Home     = (1 << 0),
         Handheld = (1 << 1)
     }
-    
+
     public readonly struct Console
     {
         #region Properties

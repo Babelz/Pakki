@@ -45,22 +45,22 @@ namespace Inviscan.Sync.Services
 
         public InventoryItem(string name, string notes, short quantity, Region region, ConsoleType consoleType, float condition)
         {
-            Name      = !string.IsNullOrEmpty(name) ? name : throw new ArgumentNullException(nameof(name));
-            Notes     = notes;
-            Quantity  = quantity;
-            Region    = region;
-            ConsoleType   = consoleType;
-            Condition = condition;
+            Name        = !string.IsNullOrEmpty(name) ? name : throw new ArgumentNullException(nameof(name));
+            Notes       = notes;
+            Quantity    = quantity;
+            Region      = region;
+            ConsoleType = consoleType;
+            Condition   = condition;
         }
     }
-    
+
     /// <summary>
     /// Interface for implementing services that provide information about the retro inventory.
     /// </summary>
     public interface IInventoryDataService
     {
     }
-    
+
     public class InventoryDataService : IInventoryDataService
     {
     }
