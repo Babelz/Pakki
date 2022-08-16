@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imuri", "Imuri\Imuri.csproj", "{E89C0984-ADE0-4E9C-845E-0DC8155470BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GS", "GS\GS.csproj", "{DE0E12B6-F85F-43B0-8094-369956DAF177}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API", "Inviscan.API\Inviscan.API.csproj", "{751ACE6D-1F03-48FC-A356-D2C4F9125B43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E89C0984-ADE0-4E9C-845E-0DC8155470BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89C0984-ADE0-4E9C-845E-0DC8155470BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89C0984-ADE0-4E9C-845E-0DC8155470BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89C0984-ADE0-4E9C-845E-0DC8155470BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0E12B6-F85F-43B0-8094-369956DAF177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0E12B6-F85F-43B0-8094-369956DAF177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0E12B6-F85F-43B0-8094-369956DAF177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0E12B6-F85F-43B0-8094-369956DAF177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{751ACE6D-1F03-48FC-A356-D2C4F9125B43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
