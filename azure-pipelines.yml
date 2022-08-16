@@ -23,15 +23,5 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: restore
-    arguments: '$(inviscan-api-tests-project)'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: build
-    arguments: '$(inviscan-api-tests-project)'
-
-- task: DotNetCoreCLI@2
-  inputs:
     command: test
     arguments: '$(inviscan-api-tests-project)'
