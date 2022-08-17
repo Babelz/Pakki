@@ -59,6 +59,7 @@ namespace Inviscan.Sync.Services
     /// </summary>
     public interface IInventoryDataService
     {
+        
     }
 
     public class InventoryDataService : IInventoryDataService
