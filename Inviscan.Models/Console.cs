@@ -92,11 +92,11 @@ namespace Inviscan.Models
 
             // Sony.
             if ((consoleType >= PS1 && consoleType <= PS5) || (consoleType >= PSP && consoleType <= Vita))
-                return Vendor.Nintendo;
+                return Vendor.Sony;
 
             // Microsoft.
             if (consoleType >= XB && consoleType <= XBSX)
-                return Vendor.Nintendo;
+                return Vendor.Microsoft;
 
             throw new ArgumentException($"Could not determine vendor for console {consoleType.Name}", nameof(consoleType));
         }
