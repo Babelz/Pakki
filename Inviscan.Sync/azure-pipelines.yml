@@ -3,7 +3,7 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-name: Inviscan.API master
+name: Inviscan.Sync master
 
 trigger:
 - master
@@ -15,16 +15,16 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: build
-    arguments: 'Inviscan.API/Inviscan.API.csproj --configuration Release'
+    arguments: 'Inviscan.Sync/Inviscan.Sync.csproj --configuration Release'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: test
-    arguments: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj --configuration Release'
+    arguments: 'Inviscan.Sync.Tests/Inviscan.Sync.Tests.csproj --configuration Release'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'Inviscan.API/bin/Release/netcoreapp3.1/'
+    rootFolderOrFile: 'Inviscan.Sync/bin/Release/netcoreapp3.1/'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
@@ -33,5 +33,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Inviscan.API'
+    ArtifactName: 'Inviscan.Sync master $(Build.BuildId)'
     publishLocation: 'Container'
