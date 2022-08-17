@@ -9,12 +9,12 @@ namespace Inviscan.Models
         /// EU-region.
         /// </summary>
         PAL = 0,
-        
+
         /// <summary>
         /// USA region.
         /// </summary>
         NTSCU,
-        
+
         /// <summary>
         /// Japan region.
         /// </summary>

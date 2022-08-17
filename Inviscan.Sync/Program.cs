@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Inviscan.Sync.Commands;
 using Inviscan.Sync.Services;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +14,7 @@ namespace Inviscan.Sync
 {
     internal sealed class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             // Configure Serilog.
             Log.Logger = new LoggerConfiguration().MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -29,13 +31,13 @@ namespace Inviscan.Sync
                            .ConfigureServices((context, services) =>
                             {
                                 services.AddSingleton<IInventoryDataService, InventoryDataService>();
-                                services.AddSingleton<IPriceDataService, PriceDataService>();
                                 services.AddSingleton<ICollectionLogService, CollectionLogService>();
                                 services.AddSingleton<ICommand, SyncCollection>();
-                            }).Build();
-            
+                            })
+                           .Build();
+
             // Run the sync command.
-            host.Services.GetService<SyncCollection>()!.Execute();
+            await host.Services.GetServices<ICommand>().OfType<SyncCollection>().First().Execute();
         }
     }
 }
