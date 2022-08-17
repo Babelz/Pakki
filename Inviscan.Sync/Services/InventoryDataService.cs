@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using Inviscan.Models;
-using Serilog;
+using Microsoft.Extensions.Logging;
+using ILogger = Serilog.ILogger;
 
 namespace Inviscan.Sync.Services
 {
@@ -76,15 +77,15 @@ namespace Inviscan.Sync.Services
     public class InventoryDataService : IInventoryDataService
     {
         #region Fields
-        private readonly ILogger log;
+        private readonly ILogger<InventoryDataService> logger;
         #endregion
 
-        public InventoryDataService(ILogger log)
-            => this.log = log;
+        public InventoryDataService(ILogger<InventoryDataService> logger)
+            => this.logger = logger;
 
         public async Task<InventoryItem[]> GetConsoleInventory(ConsoleType console)
         {
-            log.Information("Started inventory scanning...");
+            logger.LogInformation("Scanning inventory changes for console {0}", console);
 
             return await Task.FromResult(Array.Empty<InventoryItem>());
         }
