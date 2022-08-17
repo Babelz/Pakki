@@ -33,5 +33,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Inviscan.API'
+    ArtifactName: 'Inviscan.API master'
     publishLocation: 'Container'
