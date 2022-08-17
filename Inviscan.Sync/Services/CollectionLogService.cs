@@ -2,15 +2,11 @@ namespace Inviscan.Sync.Services
 {
     public enum InventoryEvent : byte
     {
-        AddStock,
-        RemoveStock,
-        ChangeBoxGrade,
-        ChangeGameGrade,
-        ChangeManualGrade,
-        ChangeNote,
-        Created,
-        InitialStockInserted,
-        OutOfStock
+        QuantityChanged,
+        BoxGradeChanged,
+        GameGradeChanged,
+        ManualGradeChanged,
+        NoteChanged
     }
     
     public interface ICollectionLogService

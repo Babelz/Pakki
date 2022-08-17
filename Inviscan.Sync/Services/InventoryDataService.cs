@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Inviscan.Models;
+using Serilog;
 
 namespace Inviscan.Sync.Services
 {
@@ -28,6 +30,11 @@ namespace Inviscan.Sync.Services
         {
             get;
         }
+        
+        public Category Category
+        {
+            get;
+        }
 
         public ConsoleType ConsoleType
         {
@@ -43,12 +50,13 @@ namespace Inviscan.Sync.Services
         }
         #endregion
 
-        public InventoryItem(string name, string notes, short quantity, Region region, ConsoleType consoleType, float condition)
+        public InventoryItem(string name, string notes, short quantity, Region region, Category category, ConsoleType consoleType, float condition)
         {
             Name        = !string.IsNullOrEmpty(name) ? name : throw new ArgumentNullException(nameof(name));
             Notes       = notes;
             Quantity    = quantity;
             Region      = region;
+            Category    = category;
             ConsoleType = consoleType;
             Condition   = condition;
         }
@@ -59,10 +67,28 @@ namespace Inviscan.Sync.Services
     /// </summary>
     public interface IInventoryDataService
     {
-        
+        /// <summary>
+        /// Returns array containing all inventory rows for given console. This contains items of all categories. 
+        /// </summary>
+        Task<InventoryItem[]> GetConsoleInventory(ConsoleType console); 
     }
 
     public class InventoryDataService : IInventoryDataService
     {
+        #region Fields
+        private readonly ILogger log;
+        #endregion
+        
+        public InventoryDataService(ILogger log)
+        {
+            this.log = log;
+        }
+        
+        public async Task<InventoryItem[]> GetConsoleInventory(ConsoleType console)
+        {
+            log.Information("Started inventory scanning...");
+            
+            return await Task.FromResult(Array.Empty<InventoryItem>());
+        }
     }
 }
