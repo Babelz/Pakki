@@ -33,5 +33,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Inviscan.Sync master'
+    ArtifactName: 'Inviscan.Sync master $(Build.BuildId)'
     publishLocation: 'Container'
