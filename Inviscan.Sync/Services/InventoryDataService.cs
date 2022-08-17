@@ -30,7 +30,7 @@ namespace Inviscan.Sync.Services
         {
             get;
         }
-        
+
         public Category Category
         {
             get;
@@ -70,7 +70,7 @@ namespace Inviscan.Sync.Services
         /// <summary>
         /// Returns array containing all inventory rows for given console. This contains items of all categories. 
         /// </summary>
-        Task<InventoryItem[]> GetConsoleInventory(ConsoleType console); 
+        Task<InventoryItem[]> GetConsoleInventory(ConsoleType console);
     }
 
     public class InventoryDataService : IInventoryDataService
@@ -78,16 +78,14 @@ namespace Inviscan.Sync.Services
         #region Fields
         private readonly ILogger log;
         #endregion
-        
+
         public InventoryDataService(ILogger log)
-        {
-            this.log = log;
-        }
-        
+            => this.log = log;
+
         public async Task<InventoryItem[]> GetConsoleInventory(ConsoleType console)
         {
             log.Information("Started inventory scanning...");
-            
+
             return await Task.FromResult(Array.Empty<InventoryItem>());
         }
     }

@@ -12,7 +12,7 @@ namespace Inviscan.Models
         Home     = (1 << 0),
         Handheld = (1 << 1)
     }
-    
+
     public sealed class ConsoleType : SmartEnum<ConsoleType>
     {
         #region Nintend home consoles
@@ -34,19 +34,19 @@ namespace Inviscan.Models
         public static readonly ConsoleType PS4 = new ConsoleType(nameof(PS4), 11);
         public static readonly ConsoleType PS5 = new ConsoleType(nameof(PS5), 12);
         #endregion
-        
+
         #region Microsoft home consoles
         public static readonly ConsoleType XB    = new ConsoleType(nameof(XB), 13);
         public static readonly ConsoleType XB360 = new ConsoleType(nameof(XB360), 14);
         public static readonly ConsoleType XBO   = new ConsoleType(nameof(XBO), 15);
         public static readonly ConsoleType XBSX  = new ConsoleType(nameof(XBSX), 16);
         #endregion
-        
+
         #region Sony handheld consoles
         public static readonly ConsoleType PSP  = new ConsoleType(nameof(PSP), 17);
         public static readonly ConsoleType Vita = new ConsoleType(nameof(Vita), 18);
         #endregion
-        
+
         #region Nintendo handheld consoles
         public static readonly ConsoleType GB     = new ConsoleType(nameof(GB), 19);
         public static readonly ConsoleType GBC    = new ConsoleType(nameof(GBC), 20);
@@ -62,34 +62,34 @@ namespace Inviscan.Models
             : base(name, value)
         {
         }
-        
+
         public static ConsoleKind GetKind(ConsoleType consoleType)
         {
             if (consoleType == null)
                 throw new ArgumentNullException(nameof(consoleType));
-            
+
             var kind = ConsoleKind.None;
-            
+
             // Home consoles.
             if (consoleType >= NES && consoleType <= XBSX)
                 kind |= ConsoleKind.Home;
-            
+
             // Handhelds. Take hybrids such as Switch into account.
-            if (consoleType >= Vita && consoleType <= DS3D || (new [] { SwitchLite, Switch }).Contains(consoleType))
+            if (consoleType >= Vita && consoleType <= DS3D || (new[] { SwitchLite, Switch }).Contains(consoleType))
                 kind |= ConsoleKind.Handheld;
-            
+
             return kind;
         }
-        
+
         public static Vendor GetVendor(ConsoleType consoleType)
         {
             if (consoleType == null)
                 throw new ArgumentNullException(nameof(consoleType));
-            
+
             // Nintendo.
             if ((consoleType >= NES && consoleType <= SwitchLite) || (consoleType >= GB && consoleType <= DS3D))
                 return Vendor.Nintendo;
-            
+
             // Sony.
             if ((consoleType >= PS1 && consoleType <= PS5) || (consoleType >= PSP && consoleType <= Vita))
                 return Vendor.Nintendo;
@@ -97,7 +97,7 @@ namespace Inviscan.Models
             // Microsoft.
             if (consoleType >= XB && consoleType <= XBSX)
                 return Vendor.Nintendo;
-            
+
             throw new ArgumentException($"Could not determine vendor for console {consoleType.Name}", nameof(consoleType));
         }
     }

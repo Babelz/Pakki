@@ -8,7 +8,7 @@ namespace Inviscan.Sync.Services
         ManualGradeChanged,
         NoteChanged
     }
-    
+
     public interface ICollectionLogService
     {
     }
