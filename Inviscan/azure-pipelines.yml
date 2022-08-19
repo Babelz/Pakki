@@ -17,6 +17,10 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'cd Inviscan'
+
+- task: CmdLine@2
+  inputs:
+    script: 'pwd'
   
 
 # Build and test Inviscan.API.
