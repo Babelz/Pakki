@@ -12,6 +12,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+# CD to Inviscan folder so we can avoid some repetition.
+- task: CmdLine@2
+  inputs:
+    script: 'cd Inviscan'
+  
+
 # Build and test Inviscan.API.
 - task: DotNetCoreCLI@2
   inputs:
