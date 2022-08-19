@@ -40,7 +40,7 @@ steps:
     rootFolderOrFile: 'Inviscan/Inviscan.API/bin/Release/netcoreapp3.1/'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.API $(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.API.zip'
     replaceExistingArchive: true
   
 - task: PublishBuildArtifacts@1
@@ -56,7 +56,7 @@ steps:
     rootFolderOrFile: 'Inviscan/Inviscan.Sync/bin/Release/netcoreapp3.1/'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.Sync $(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.Sync.zip'
     replaceExistingArchive: true
   
 - task: PublishBuildArtifacts@1
