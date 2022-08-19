@@ -4,17 +4,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imuri", "Imuri\Imuri.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GS", "GS\GS.csproj", "{DE0E12B6-F85F-43B0-8094-369956DAF177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API", "Inviscan.API\Inviscan.API.csproj", "{751ACE6D-1F03-48FC-A356-D2C4F9125B43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API", "Inviscan\Inviscan.API\Inviscan.API.csproj", "{751ACE6D-1F03-48FC-A356-D2C4F9125B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API.Tests", "Inviscan.API.Tests\Inviscan.API.Tests.csproj", "{916C1F63-276D-4010-9286-DB250027AAE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.API.Tests", "Inviscan\Inviscan.API.Tests\Inviscan.API.Tests.csproj", "{916C1F63-276D-4010-9286-DB250027AAE3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inviscan", "Inviscan", "{8CC0FE21-21D5-4612-8080-16D4FA131644}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.Sync.Tests", "Inviscan.Sync.Tests\Inviscan.Sync.Tests.csproj", "{C88BC193-6870-44BB-813F-800C3243CAED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.Sync.Tests", "Inviscan\Inviscan.Sync.Tests\Inviscan.Sync.Tests.csproj", "{C88BC193-6870-44BB-813F-800C3243CAED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.Sync", "Inviscan.Sync\Inviscan.Sync.csproj", "{35F6A5CD-2514-44E9-B2D9-7BFE30CF64C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.Sync", "Inviscan\Inviscan.Sync\Inviscan.Sync.csproj", "{35F6A5CD-2514-44E9-B2D9-7BFE30CF64C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.Models", "Inviscan.Models\Inviscan.Models.csproj", "{740EEFE5-3B12-4B80-A59B-69F702B2E40E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inviscan.Models", "Inviscan\Inviscan.Models\Inviscan.Models.csproj", "{740EEFE5-3B12-4B80-A59B-69F702B2E40E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
