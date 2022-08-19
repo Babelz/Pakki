@@ -16,36 +16,36 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: build
-    arguments: 'Inviscan.API/Inviscan.API.csproj --configuration Release'
+    arguments: 'Inviscan/Inviscan.API/Inviscan.API.csproj --configuration Release'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: test
-    arguments: 'Inviscan.API.Tests/Inviscan.API.Tests.csproj --configuration Release'
+    arguments: 'Inviscan/Inviscan.API.Tests/Inviscan.API.Tests.csproj --configuration Release'
 
 # Build and test Inviscan.Sync
 - task: DotNetCoreCLI@2
   inputs:
     command: build
-    arguments: 'Inviscan.Sync/Inviscan.Sync.csproj --configuration Release'
+    arguments: 'Inviscan/Inviscan.Sync/Inviscan.Sync.csproj --configuration Release'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: test
-    arguments: 'Inviscan.Sync.Tests/Inviscan.Sync.Tests.csproj --configuration Release'
+    arguments: 'Inviscan/Inviscan.Sync.Tests/Inviscan.Sync.Tests.csproj --configuration Release'
 
 # Archive build artifacts and publish Inviscan.API.
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'Inviscan.API/bin/Release/netcoreapp3.1/'
+    rootFolderOrFile: 'Inviscan/Inviscan.API/bin/Release/netcoreapp3.1/'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.API $(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.API/Inviscan.API.zip'
     replaceExistingArchive: true
   
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/Inviscan.API'
     ArtifactName: 'Inviscan.API $(Build.BuildId)'
     publishLocation: 'Container'
   
@@ -53,14 +53,14 @@ steps:
 # Archive build artifacts and publish Inviscan.Sync.
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'Inviscan.Sync/bin/Release/netcoreapp3.1/'
+    rootFolderOrFile: 'Inviscan/Inviscan.Sync/bin/Release/netcoreapp3.1/'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.Sync $(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.Sync/Inviscan.Sync.zip'
     replaceExistingArchive: true
   
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/Inviscan.Sync'
     ArtifactName: 'Inviscan.Sync $(Build.BuildId)'
     publishLocation: 'Container'
