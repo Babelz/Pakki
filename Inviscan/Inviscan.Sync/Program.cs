@@ -18,10 +18,10 @@ namespace Inviscan.Sync
         private static async Task Main(string[] args)
         {
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                                                          .AddJsonFile("appsettings.json", false)
+                                                          .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", false)
                                                           .AddCommandLine(args)
                                                           .AddEnvironmentVariables()
-                                                          .Build();
+                                                          .Build(); 
             
             // Configure Serilog.
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration)
