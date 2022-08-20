@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inviscan.Sync.Commands;
 using Inviscan.Sync.Services;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,10 @@ namespace Inviscan.Sync
             // Build the actual application and cook all the dependencies.
             var host = Host.CreateDefaultBuilder(args)
                            .ConfigureWebHostDefaults(b => b.UseConfiguration(configuration))
-                           .UseSerilog()
+                           .UseSerilog((context, services, loggerConfiguration) =>
+                            {
+                                loggerConfiguration.WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(), TelemetryConverter.Traces);
+                            })
                            .ConfigureServices((context, services) =>
                             {
                                 services.AddSingleton<IInventoryDataService, InventoryDataService>();
