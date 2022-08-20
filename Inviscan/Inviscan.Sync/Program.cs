@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Inviscan.Sync.Commands;
 using Inviscan.Sync.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,18 +17,22 @@ namespace Inviscan.Sync
     {
         private static async Task Main(string[] args)
         {
+            var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+                                                          .AddJsonFile("appsettings.json", false)
+                                                          .AddCommandLine(args)
+                                                          .AddEnvironmentVariables()
+                                                          .Build();
+            
             // Configure Serilog.
-            Log.Logger = new LoggerConfiguration().MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration)
                                                   .Enrich.FromLogContext()
-                                                  .WriteTo.Console()
-                                                  .WriteTo.Debug()
+                                                  .Enrich.WithMachineName()
                                                   .CreateLogger();
 
             // Build the actual application and cook all the dependencies.
             var host = Host.CreateDefaultBuilder(args)
+                           .ConfigureWebHostDefaults(b => b.UseConfiguration(configuration))
                            .UseSerilog()
-                           .ConfigureAppConfiguration(builder => builder.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                                                                        .AddJsonFile("appsettings.json", false))
                            .ConfigureServices((context, services) =>
                             {
                                 services.AddSingleton<IInventoryDataService, InventoryDataService>();
