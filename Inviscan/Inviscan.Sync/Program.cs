@@ -33,10 +33,7 @@ namespace Inviscan.Sync
             // Build the actual application and cook all the dependencies.
             var host = Host.CreateDefaultBuilder(args)
                            .ConfigureWebHostDefaults(b => b.UseConfiguration(configuration))
-                           .UseSerilog((context, services, loggerConfiguration) =>
-                            {
-                                loggerConfiguration.WriteTo.ApplicationInsights(services.GetRequiredService<TelemetryConfiguration>(), TelemetryConverter.Traces);
-                            })
+                           .UseSerilog()
                            .ConfigureServices((context, services) =>
                             {
                                 services.AddSingleton<IInventoryDataService, InventoryDataService>();
