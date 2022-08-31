@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using Ardalis.SmartEnum;
 
@@ -58,7 +57,7 @@ namespace Inviscan.Models
         public static readonly ConsoleType DS3D   = new ConsoleType(nameof(DS3D), 27);
         #endregion
 
-        public ConsoleType(string name, ushort value)
+        private ConsoleType(string name, ushort value)
             : base(name, value)
         {
         }

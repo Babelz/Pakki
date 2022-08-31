@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Linq;
 using HtmlAgilityPack;
 
 namespace GS
