@@ -12,8 +12,8 @@ namespace GS
         #endregion
 
         private static void Main(string[] args)
-        {
-            var web = new HtmlWeb();
+        {           
+            var web      = new HtmlWeb();
             var document = web.Load(Uri)
                               .DocumentNode.SelectNodes("//h1")
                               .Where(h => Regex.IsMatch(h.InnerText, "\\d+\\. .+"))

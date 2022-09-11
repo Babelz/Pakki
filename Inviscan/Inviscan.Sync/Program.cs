@@ -12,22 +12,22 @@ using Serilog;
 
 namespace Inviscan.Sync
 {
-    internal sealed class Program
+    internal static class Program
     {
         private static async Task Main(string[] args)
         {
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                                                          .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", false)
+                                                          .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ENVIRONMENT")}.json", false)
                                                           .AddCommandLine(args)
                                                           .AddEnvironmentVariables()
-                                                          .Build(); 
+                                                          .Build();
             
             // Configure Serilog.
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration)
                                                   .Enrich.FromLogContext()
                                                   .Enrich.WithMachineName()
                                                   .CreateLogger();
-
+            
             // Build the actual application and cook all the dependencies.
             var host = Host.CreateDefaultBuilder(args)
                            .ConfigureWebHostDefaults(b => b.UseConfiguration(configuration))
@@ -42,6 +42,12 @@ namespace Inviscan.Sync
 
             // Run the sync command.
             await host.Services.GetServices<ICommand>().OfType<SyncCollection>().First().Execute();
+            
+            Log.Information("Sync completed");
+            
+#if DEBUG
+            Console.ReadKey();
+#endif
         }
     }
 }

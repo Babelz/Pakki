@@ -1,126 +1,39 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
 using Inviscan.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Inviscan.Sync.Services
 {
     /// <summary>
-    /// Structure that contains the item condition values.
+    /// Structure that defines details for single inventory page. These details are used for fetching the inventory contents and more detailed information for specific
+    /// pages.
     /// </summary>
-    public struct ItemGrade
+    public readonly struct InventoryPageConfiguration
     {
         #region Properties
-        /// <summary>
-        /// Gets the condition of the box.
-        /// </summary>
-        public float Box
+        public string Title
         {
             get;
         }
-
-        /// <summary>
-        /// Gets the condition of the manual.
-        /// </summary>
-        public float Manual
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the condition of the game.
-        /// </summary>
-        public float Game
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the average grade that is the average of <see cref="Box"/>, <see cref="Manual"/> and <see cref="Game"/> values.
-        /// </summary>
-        public float Average
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the user defined condition average condition of the item. 
-        /// </summary>
-        public float Condition
-        {
-            get;
-        }
-        #endregion
-
-        public ItemGrade(float box, float manual, float game, float condition)
-        {
-            Box       = box < 0.0f ? throw new ArgumentOutOfRangeException(nameof(box), "Expecting positive value") : box;
-            Manual    = manual < 0.0f ? throw new ArgumentOutOfRangeException(nameof(manual), "Expecting positive value") : manual;
-            Game      = game < 0.0f ? throw new ArgumentOutOfRangeException(nameof(game), "Expecting positive value") : game;
-            Condition = box < 0.0f ? throw new ArgumentOutOfRangeException(nameof(condition), "Expecting positive value") : condition;
-
-            Average = box + manual + game;
-
-            if (Average < 0.0f)
-                throw new InvalidOperationException("Average can't be below zero");
-
-            if (Average > 0.0f)
-                Average /= 3;
-        }
-    }
-
-    /// <summary>
-    /// Structure that represents retro inventory item.
-    /// </summary>
-    public sealed class InventoryItem
-    {
-        #region Properties
-        public string Name
-        {
-            get;
-        }
-
-        public string Notes
-        {
-            get;
-        }
-
-        public short Quantity
-        {
-            get;
-        }
-
-        public Region Region
-        {
-            get;
-        }
-
-        public ItemGrade Grade
-        {
-            get;
-        }
-        #endregion
-
-        public InventoryItem(string name, string notes, short quantity, Region region, Category category, ConsoleType consoleType, in ItemGrade grade)
-        {
-            Name     = !string.IsNullOrEmpty(name) ? name : throw new ArgumentNullException(nameof(name));
-            Notes    = notes;
-            Quantity = quantity;
-            Region   = region;
-            Grade    = grade;
-        }
-    }
-
-    public sealed class InventoryPage : IEnumerable<InventoryItem>
-    {
-        #region Fields
-        private readonly IList<InventoryItem> items;
-        #endregion
         
-        #region Properties
-        public string Name
+        public Vendor Vendor
+        {
+            get;
+        }
+
+        public ConsoleType Console
         {
             get;
         }
@@ -129,42 +42,122 @@ namespace Inviscan.Sync.Services
         {
             get;
         }
+        #endregion
 
-        public ConsoleType ConsoleType
+        public InventoryPageConfiguration(string title, Vendor vendor, ConsoleType console, Category category)
+        {
+            Title    = !string.IsNullOrEmpty(title) ? title : throw new ArgumentNullException(nameof(title));
+            Vendor   = vendor;
+            Console  = console ?? throw new ArgumentNullException(nameof(console));
+            Category = category;
+        }
+    }
+
+    public struct InventoryConfiguration
+    {
+        #region Properties
+        public Guid Id
         {
             get;
+            set;
+        }
+
+        public string Author
+        {
+            get;
+            set;
+        }
+
+        public string SheetId
+        {
+            get;
+            set;
         }
         #endregion
 
-        public InventoryPage(string name, ConsoleType consoleType, Category category, IList<InventoryItem> items)
-        {
-            Name        = !string.IsNullOrEmpty(name) ? name : throw new ArgumentNullException(nameof(name));
-            ConsoleType = consoleType;
-            Category    = category;
-            
-            this.items = items ?? throw new ArgumentNullException(nameof(items));
-        }
-
-        public IEnumerator<InventoryItem> GetEnumerator()
-            => items.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+        public static IEnumerable<InventoryConfiguration> GetFromConfiguration(IConfiguration configuration)
+            => configuration.GetSection("Inventories").Get<InventoryConfiguration[]>();
     }
-
+    
     /// <summary>
     /// Interface for implementing services that provide information about the retro inventory.
     /// </summary>
     public interface IInventoryDataService
     {
         /// <summary>
-        /// Returns array containing all inventory rows for given console. This contains items of all categories. 
+        /// Returns all inventory page configurations for given inventory configuration.
         /// </summary>
-        Task<InventoryItem[]> GetConsoleInventory(ConsoleType console);
+        Task<IEnumerable<InventoryPageConfiguration>> GetPageConfigurations(SheetsConfiguration sheetsConfiguration, InventoryConfiguration inventoryConfiguration);
+
+        /// <summary>
+        /// Returns single inventory page contents that match the given page configuration from collection that matches the given inventory configuration. 
+        /// </summary>
+        Task<InventoryPage> GetPage(SheetsConfiguration sheetsConfiguration, InventoryConfiguration inventoryConfiguration, InventoryPageConfiguration pageConfiguration);
     }
 
-    public class InventoryDataService : IInventoryDataService
+    public struct SheetsConfiguration
+    {   
+        #region Properties
+        public string ApplicationName
+        {
+            get;
+            set;
+        }
+
+        public string Secrets
+        {
+            get;
+            set;
+        }
+        #endregion
+
+        public static SheetsConfiguration GetFromConfiguration(IConfiguration configuration)
+            => configuration.GetSection("GoogleSheets").Get<SheetsConfiguration>();
+    }
+
+    /// <summary>
+    /// Static utility class that contains mappings for working the the inventory sheets.
+    /// </summary>
+    public static class SheetDataMappings
     {
+        public static class Configuration
+        {
+            #region Constant fields
+            public const string Name = "Configuration";
+            #endregion
+            
+            public static class Locations
+            {
+                #region Constant fields
+                public const byte Header   = 0;
+                public const byte Vendor   = 1;
+                public const byte Console  = 2;
+                public const byte Category = 3;
+                #endregion
+            }
+            
+            public static class Regions
+            {
+                #region Constant fields
+                public const string Start = "A4";
+                public const string End   = "B7";
+                #endregion
+            }
+        }
+        
+        public static class Items
+        {
+            public static class Regions
+            {
+                #region Constant fields
+                public const string Start = "A10";
+                #endregion
+            }
+        }
+    }
+    
+    public class InventoryDataService : IInventoryDataService
+    {   
         #region Fields
         private readonly ILogger<InventoryDataService> logger;
         #endregion
@@ -172,11 +165,87 @@ namespace Inviscan.Sync.Services
         public InventoryDataService(ILogger<InventoryDataService> logger)
             => this.logger = logger;
 
-        public async Task<InventoryItem[]> GetConsoleInventory(ConsoleType console)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static SheetsService CreateGoogleSheetsClient(SheetsConfiguration sheetsConfiguration)
         {
-            logger.LogInformation("Scanning inventory changes for console {0}", console);
+            using var fs = new FileStream(sheetsConfiguration.Secrets, FileMode.Open);
 
-            return await Task.FromResult(Array.Empty<InventoryItem>());
+            var credential = GoogleCredential.FromStream(fs).CreateScoped(SheetsService.Scope.Spreadsheets);
+            
+            return new SheetsService(new BaseClientService.Initializer()     
+            {
+                HttpClientInitializer = credential,
+                ApplicationName       = sheetsConfiguration.ApplicationName
+            });
+        }
+        
+        public async Task<IEnumerable<InventoryPageConfiguration>> GetPageConfigurations(SheetsConfiguration sheetsConfiguration, 
+                                                                                         InventoryConfiguration inventoryConfiguration)
+        {
+            logger.LogInformation("Fetching inventory page configuration for inventory {@inventory}", inventoryConfiguration);
+
+            // Get sheet details from Google sheets.
+            var results  = new List<InventoryPageConfiguration>();
+            var client   = CreateGoogleSheetsClient(sheetsConfiguration);
+            var response = await client.Spreadsheets.Get(inventoryConfiguration.SheetId).ExecuteAsync();
+
+            // Process each sheet.
+            foreach (var sheet in response.Sheets)
+            {
+                // Get configuration region data from the sheet.
+                var configurationData = await client.Spreadsheets.Values.Get(
+                        inventoryConfiguration.SheetId, 
+                        $"{sheet.Properties.Title}!{SheetDataMappings.Configuration.Regions.Start}:{SheetDataMappings.Configuration.Regions.End}")
+                    .ExecuteAsync();
+                
+                // Do not parse pages that do not contain page configuration section. 
+                if (configurationData.Values[SheetDataMappings.Configuration.Locations.Header].FirstOrDefault()?.ToString() != SheetDataMappings.Configuration.Name)
+                {
+                    logger.LogInformation($"Sheet {sheet.Properties.Title} does not contain page configuration section, skipping parsing...");
+                    
+                    continue;
+                }
+
+                // Parse page configuration values from the sheet. Omit parsing if the page configuration is invalid.
+                if (!Enum.TryParse<Vendor>(configurationData.Values[SheetDataMappings.Configuration.Locations.Vendor].Last().ToString(), out var vendor))
+                {
+                    logger.LogWarning($"Invalid {nameof(Vendor)} value in sheet {sheet.Properties.Title}, can't load page configuration");
+                    
+                    continue;
+                }
+                
+                if (!Enum.TryParse<Category>(configurationData.Values[SheetDataMappings.Configuration.Locations.Category].Last().ToString(), out var category))
+                {
+                    logger.LogWarning($"Invalid {nameof(Category)} value in sheet {sheet.Properties.Title}, can't load page configuration");
+                    
+                    continue;
+                }
+                
+                if (!ConsoleType.TryFromName(configurationData.Values[SheetDataMappings.Configuration.Locations.Console].Last().ToString(), out var console))
+                {
+                    logger.LogWarning($"Invalid {nameof(ConsoleType)} value in sheet {sheet.Properties.Title}, can't load page configuration");
+                    
+                    continue;
+                }
+
+                // At this point parsing of the page configuration should be ok.
+                results.Add(new InventoryPageConfiguration(sheet.Properties.Title, vendor, console, category));
+            }
+            
+            logger.LogInformation($"Found total {results.Count} configured pages from the sheet");
+
+            return results;
+        }
+
+        public async Task<InventoryPage> GetPage(SheetsConfiguration sheetsConfiguration,
+                                                 InventoryConfiguration inventoryConfiguration,
+                                                 InventoryPageConfiguration pageConfiguration)
+        {
+            logger.LogInformation("Fetching inventory page for inventory {@inventory} using following page configuration {@configuration}", 
+                                  inventoryConfiguration, 
+                                  pageConfiguration);
+
+            return await Task.FromResult<InventoryPage>(null);
         }
     }
 }
