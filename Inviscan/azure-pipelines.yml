@@ -37,7 +37,7 @@ steps:
 # Archive build artifacts and publish Inviscan.API.
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'Inviscan/Inviscan.API/bin/Release/netcoreapp3.1/'
+    rootFolderOrFile: 'Inviscan/Inviscan.API/bin/Release/net6.0/'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.API/Inviscan.API.zip'
@@ -53,7 +53,7 @@ steps:
 # Archive build artifacts and publish Inviscan.Sync.
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'Inviscan/Inviscan.Sync/bin/Release/netcoreapp3.1/'
+    rootFolderOrFile: 'Inviscan/Inviscan.Sync/bin/Release/net6.0/'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/Inviscan.Sync/Inviscan.Sync.zip'
